@@ -1,8 +1,22 @@
 import React from 'react';
 
-const DeviceView = () => {
+const DeviceView = ({deviceName, deviceIconUrl, deviceAddress, onClick}) => {
   return (
-    <div>DeviceView</div>
+    <div
+    className=""
+    onClick={onClick}
+    >
+
+      <div>
+        <img src={deviceIconUrl} alt="Profile Pciture" />
+      </div>
+
+      <div>
+        <h3>{deviceName}</h3>
+        <p>{deviceAddress}</p>
+      </div>
+
+    </div>
   )
 }
 

@@ -1,3 +1,5 @@
 test/
 virt/
 t-web/
+**/__pycache__
+*.json

@@ -19,6 +19,16 @@
 
 .filename {
     text-align: center;
-    overflow: clip;
+    overflow-x: clip;
     text-overflow: ellipsis;
+
+    overflow-x: visible;
+    /* text-overflow: none; */
+}
+
+.filename-shower {
+    position: relative;
+    /* s */
+    left: -25%;
+    z-index: 5;
 }

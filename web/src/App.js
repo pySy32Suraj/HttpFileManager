@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { FilesFolderContianer } from './components';
+import { Home, Header, Sidebar, FilesFolderContianer, DevicesContainer } from './components';
 
 
 const App = () => {
@@ -8,8 +8,12 @@ const App = () => {
   return (
     <div className='dark:bg-slate-800'>
     
-    <FilesFolderContianer />
+    <Header />
+    <Sidebar />
+    <Home />
 
+    <DevicesContainer />
+    <FilesFolderContianer />
     </div>
   )
 }
