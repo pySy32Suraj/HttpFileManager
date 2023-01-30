@@ -1,8 +1,11 @@
 import os
 import time
+import shutil
 import logging
+from http import HTTPStatus
 
-
+from .headers import Headers
+from .guess_type import get_type
 
 
 class FilesSystem:
@@ -24,9 +27,10 @@ class FilesSystem:
                 if os.path.isfile(abs_path):
                     files.append(self.getFileInfo(abs_path))
                 elif os.path.isdir(abs_path):
-                    folders.append(self.getFolderInfo(abs_path))
+                    f_info = self.getFolderInfo(abs_path)
+                    if f_info != None: folders.append(f_info)
         except Exception as e:
-            logging.error(e.__str__())
+            logging.error("RestServer -> " + e.__str__())
             
         return {
             "Files": files,
@@ -37,14 +41,14 @@ class FilesSystem:
         try:
             items = len(os.listdir(fpath))
         except Exception as e:
-            logging.error(e.__str__())
-            items = None
-
-        return {
+            logging.error("RestServer -> " + e.__str__())
+            return
+        else:
+            return {
             "Name": os.path.basename(fpath),
             "AbsolutePath": fpath,
             "Items": items
-        }
+            }
     
     def getFolderReservedSpace(self, fpath: str) -> int:
         """
@@ -67,12 +71,11 @@ class FilesSystem:
             "Type": fname[d_index:] if d_index != -1 else None,
        }
     
-    
+def send_file(request_handler, fpath: str, download: bool=False):
+        Headers(request_handler, {
+            "Content-Type": "application/" + get_type(fpath).split("/")[1] if download else get_type(fpath),
+            "Content-Length": os.path.getsize(fpath)
+        }).send(HTTPStatus.OK).end()
 
-if __name__ == "__main__":
-    f = FilesSystem()
-    
-    for key, item in f.listDir(f.getDrives()[1]).items():
-        print(key, ": ")
-        for i in item:
-            print(i)
+        with open(fpath, "rb") as f:
+            shutil.copyfileobj(f, request_handler.wfile)

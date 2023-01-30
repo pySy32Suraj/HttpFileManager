@@ -3,3 +3,4 @@ virt/
 t-web/
 **/__pycache__
 *.json
+*.zip

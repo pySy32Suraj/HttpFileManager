@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 
 
@@ -27,10 +29,24 @@ class Termux:
     
     def get_storage(self) -> list[dict]:
         return [{
-            "Name": "Internal Storage",
-            "Path": self.sdcard
+            "name": "Internal Storage",
+            "mountpoint": self.sdcard,
+            "fstype": "unknown",
+            "details": {
+                "used": 0,
+                "free": 0,
+                "total": 0,
+                "percent": 0
+            }
         },
         {
-            "Name": "Termux Home",
-            "Path": self.home
+            "name": "Termux Home",
+            "mountpoint": self.home,
+            "fstype": "unknown",
+            "details": {
+                "used": 0,
+                "free": 0,
+                "total": 0,
+                "percent": 0
+            }
         }]
